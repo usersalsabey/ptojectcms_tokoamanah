@@ -10,7 +10,7 @@ class LaporanController extends Controller
     {
         $laporan = DB::table('transaksi')
             ->select(
-                DB::raw("TRUNC(tanggal) as tanggal"), // ambil tanggal tanpa waktu
+                DB::raw("TRUNC(tanggal) as tanggal"),
                 DB::raw("COUNT(*) as jumlah_transaksi"),
                 DB::raw("SUM(total) as total_penjualan")
             )

@@ -10,6 +10,13 @@
         <div class="alert alert-success text-center">{{ session('success') }}</div>
     @endif
 
+    {{-- ✅ Total data barang (jawaban soal 1b) --}}
+    @isset($jumlah)
+        <div class="alert alert-info text-center">
+            Total Barang: <strong>{{ $jumlah }}</strong>
+        </div>
+    @endisset
+
     {{-- Form pencarian --}}
     <div class="row mb-3">
         <div class="col-md-6">
@@ -51,7 +58,7 @@
             </tr>
             @empty
             <tr>
-                <td colspan="5" class="text-center">Belum ada data barang 😢</td>
+                <td colspan="5" class="text-center">Barang yang kamu cari sedang kosong 😢</td>
             </tr>
             @endforelse
         </tbody>

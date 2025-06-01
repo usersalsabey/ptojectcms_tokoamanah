@@ -4,23 +4,28 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Barang;
 
 class BarangController extends Controller
 {
     public function index(Request $request)
-    {
-        $query = DB::table('barang');
+{
+    $query = Barang::orderBy('id', 'desc');
 
-        if ($request->has('search')) {
-            $search = $request->search;
-            $query->where('nama_barang', 'like', '%' . $search . '%');
-            // Kolom kode_barang dihapus karena tidak ada di database
-        }
-
-        $data = $query->get();
-
-        return view('barang.index', compact('data'));
+    if ($request->has('search')) {
+        $search = $request->search;
+        $query->where(function ($q) use ($search) {
+            $q->where('nama_barang', 'like', '%' . $search . '%')
+              ->orWhere('kode_barang', 'like', '%' . $search . '%');
+        });
     }
+
+    $data = $query->get();
+
+    $jumlah = Barang::count();
+
+    return view('barang.index', compact('data', 'jumlah'));
+}
 
     public function store(Request $request)
     {
@@ -52,6 +57,7 @@ class BarangController extends Controller
         return view('barang.edit', ['barang' => $barang]);
     }
 
+   
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -73,7 +79,6 @@ class BarangController extends Controller
 
         return redirect('/barang')->with('success', 'Barang berhasil diperbarui!');
     }
-
     public function destroy($id)
     {
         DB::delete('DELETE FROM barang WHERE id = ?', [$id]);

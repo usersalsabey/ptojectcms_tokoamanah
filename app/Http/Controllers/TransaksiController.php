@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Transaksi;
+use App\Models\Barang;
 
 class TransaksiController extends Controller
 {
@@ -20,29 +22,21 @@ class TransaksiController extends Controller
 
     public function create()
     {
-        $pembeli = DB::table('pembeli')->get();
-        $kasir = DB::table('kasir')->get();
-        $barang = DB::table('barang')->get();
+        $kasir = DB::table('kasir')->get(); 
+        $barang = Barang::all();
 
-        return view('transaksi.create', compact('pembeli', 'kasir', 'barang'));
+        return view('transaksi.create', compact('kasir', 'barang'));
     }
 
     public function show($id)
     {
-        $transaksi = DB::table('transaksi')
-            ->join('pembeli', 'transaksi.pembeli_id', '=', 'pembeli.id')
-            ->join('kasir', 'transaksi.kasir_id', '=', 'kasir.id')
-            ->select('transaksi.*', 'pembeli.nama as nama_pembeli', 'kasir.nama as nama_kasir')
-            ->where('transaksi.id', $id)
-            ->first();
+        $transaksi = Transaksi::with(['barang', 'detail'])->find($id);
 
-        $detail = DB::table('transaksi_detail')
-            ->join('barang', 'transaksi_detail.barang_id', '=', 'barang.id')
-            ->select('barang.nama_barang as nama_barang', 'transaksi_detail.*') 
-            ->where('transaksi_id', $id)
-            ->get();
+        if (!$transaksi) {
+            return redirect('/transaksi')->with('error', 'Transaksi tidak ditemukan!');
+        }
 
-        return view('transaksi.show', compact('transaksi', 'detail'));
+        return view('transaksi.show', compact('transaksi'));
     }
 
     public function store(Request $request)
@@ -54,12 +48,18 @@ class TransaksiController extends Controller
                 return $carry + ((float) $item[0] * (float) $item[1]);
             }, 0);
 
-        // Simpan transaksi utama
+        // Simpan pembeli baru ke tabel pembeli
+        $pembeli_id = DB::table('pembeli')->insertGetId([
+            'nama' => $request->nama_pembeli,
+            'no_hp' => $request->no_hp
+        ]);
+
+        // Simpan transaksi utama ke tabel transaksi
         $transaksi_id = DB::table('transaksi')->insertGetId([
-            'pembeli_id' => $request->pembeli_id,
+            'pembeli_id' => $pembeli_id,
             'kasir_id' => $request->kasir_id,
             'tanggal' => now(),
-            'total' => $total,
+            'total' => $total
         ]);
 
         // Simpan detail barang yang dibeli
@@ -77,10 +77,7 @@ class TransaksiController extends Controller
 
     public function destroy($id)
     {
-        // Hapus detail terlebih dahulu
         DB::table('transaksi_detail')->where('transaksi_id', $id)->delete();
-
-        // Hapus transaksi utama
         DB::table('transaksi')->where('id', $id)->delete();
 
         return redirect('/transaksi')->with('success', 'Transaksi berhasil dihapus!');

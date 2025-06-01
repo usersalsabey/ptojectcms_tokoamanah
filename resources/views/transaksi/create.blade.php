@@ -9,18 +9,21 @@
     <form action="{{ url('/transaksi') }}" method="POST">
         @csrf
 
+        {{-- Input Pembeli --}}
         <div class="mb-3">
-            <label>Pembeli</label>
-            <select name="pembeli_id" class="form-control">
-                @foreach ($pembeli as $p)
-                    <option value="{{ $p->id }}">{{ $p->nama }}</option>
-                @endforeach
-            </select>
+            <label>Nama Pembeli</label>
+            <input type="text" name="nama_pembeli" class="form-control" placeholder="Ketik nama pembeli..." required>
         </div>
 
         <div class="mb-3">
+            <label>No HP</label>
+            <input type="text" name="no_hp" class="form-control" placeholder="081234567890">
+        </div>
+
+        {{-- Dropdown Kasir --}}
+        <div class="mb-3">
             <label>Kasir</label>
-            <select name="kasir_id" class="form-control">
+            <select name="kasir_id" class="form-control" required>
                 @foreach ($kasir as $k)
                     <option value="{{ $k->id }}">{{ $k->nama }}</option>
                 @endforeach
@@ -33,18 +36,17 @@
         <div id="barang-wrapper">
             <div class="row mb-2 barang-item">
                 <div class="col">
-                    <select name="barang_id[]" class="form-control">
+                    <select name="barang_id[]" class="form-control" required>
                         @foreach ($barang as $b)
                             <option value="{{ $b->id }}">{{ $b->nama_barang }}</option>
-
                         @endforeach
                     </select>
                 </div>
                 <div class="col">
-                    <input type="number" name="jumlah[]" class="form-control" placeholder="Jumlah">
+                    <input type="number" name="jumlah[]" class="form-control" placeholder="Jumlah" required>
                 </div>
                 <div class="col">
-                    <input type="number" name="harga_satuan[]" class="form-control" placeholder="Harga Satuan">
+                    <input type="number" name="harga_satuan[]" class="form-control" placeholder="Harga Satuan" required>
                 </div>
             </div>
         </div>
@@ -57,7 +59,7 @@
 </div>
 
 <script>
-document.getElementById('tambah-barang').addEventListener('click', function() {
+document.getElementById('tambah-barang').addEventListener('click', function () {
     const wrapper = document.getElementById('barang-wrapper');
     const clone = wrapper.querySelector('.barang-item').cloneNode(true);
     clone.querySelectorAll('input').forEach(input => input.value = '');
