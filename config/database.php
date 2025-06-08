@@ -45,16 +45,16 @@ return [
         ],
 
         'oracle' => [
-    'driver'        => 'oracle',
-    'tns'           => env('DB_TNS', ''),
-    'host'          => env('DB_HOST', '127.0.0.1'),
-    'port'          => env('DB_PORT', '1521'),
-    'database'      => env('DB_SERVICE_NAME', 'xe'),
-    'username'      => env('DB_USERNAME', 'system'),
-    'password'      => env('DB_PASSWORD', '12345'),
-    'charset'       => 'AL32UTF8',
-    'prefix'        => '',
-    'prefix_schema' => env('DB_SCHEMA_PREFIX', ''),
+       'driver'        => 'oracle',
+       'tns'           => env('DB_TNS', ''),
+        'host'          => env('DB_HOST', '127.0.0.1'),
+        'port'          => env('DB_PORT', '1521'),
+        'database'      => env('DB_SERVICE_NAME', 'xe'),
+        'username'      => env('DB_USERNAME', 'system'),
+        'password'      => env('DB_PASSWORD', '12345'),
+        'charset'       => 'AL32UTF8',
+        'prefix'        => '',
+        'prefix_schema' => env('DB_SCHEMA_PREFIX', ''),
 ],
 
 

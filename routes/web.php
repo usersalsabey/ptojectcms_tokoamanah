@@ -21,6 +21,11 @@ Route::get('/cek-koneksi', function () {
     }
 });
 
+Route::get('/cek-umur', function () {
+    return 'Selamat datang, kamu cukup umur! 🥳';
+})->middleware('check.age');
+
+
 // Route untuk fitur Barang
 Route::get('/barang', [BarangController::class, 'index']);
 Route::get('/barang/create', [BarangController::class, 'create']);
