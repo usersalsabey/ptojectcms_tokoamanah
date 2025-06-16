@@ -7,6 +7,7 @@ use App\Http\Controllers\KasirController;
 use App\Http\Controllers\PembeliController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\ImageController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -60,3 +61,8 @@ Route::delete('/transaksi/{id}', [TransaksiController::class, 'destroy']);
 //route untuk fitur laporan
 Route::get('/laporan', [LaporanController::class, 'index']);
 
+//route untul img
+Route::get('/upload', [ImageController::class, 'create']);
+Route::post('/upload', [ImageController::class, 'store'])->name('image.upload');
+Route::delete('/upload/{id}', [ImageController::class, 'destroy'])->name('image.delete');
+Route::get('/gallery', [ImageController::class, 'gallery'])->name('image.gallery');

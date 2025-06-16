@@ -44,7 +44,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 
-        // ✅ Tambahan middleware untuk tugas
+        //cek usia
         'check.age' => \App\Http\Middleware\CheckAge::class,
     ];
 }
