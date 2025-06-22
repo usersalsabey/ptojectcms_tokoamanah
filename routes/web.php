@@ -34,6 +34,8 @@ Route::post('/barang', [BarangController::class, 'store']);
 Route::get('/barang/{id}/edit', [BarangController::class, 'edit']);
 Route::post('/barang/{id}', [BarangController::class, 'update']);
 Route::delete('/barang/{id}', [BarangController::class, 'destroy']);
+Route::get('/barang/show/{id}', [BarangController::class, 'show']);
+Route::get('/barang/show-try/{id}', [BarangController::class, 'showTryCatch']);
 
 // Rute untuk fitur kasir
 Route::get('/kasir', [KasirController::class, 'index']);
@@ -52,11 +54,12 @@ Route::put('/pembeli/{id}', [PembeliController::class, 'update']);
 Route::delete('/pembeli/{id}', [PembeliController::class, 'destroy']);
 
 //Route untuk fitur transaksi
-Route::get('/transaksi', [TransaksiController::class, 'index']);
+Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
 Route::get('/transaksi/create', [TransaksiController::class, 'create']);
 Route::post('/transaksi', [TransaksiController::class, 'store']);
-Route::get('/transaksi/{id}', [TransaksiController::class, 'show'])->where('id', '[0-9]+');
-Route::delete('/transaksi/{id}', [TransaksiController::class, 'destroy']);
+Route::get('/transaksi/{id}/delete', [TransaksiController::class, 'delete'])->name('transaksi.delete');
+Route::delete('/transaksi/{id}', [TransaksiController::class, 'destroy'])->name('transaksi.destroy');
+
 
 //route untuk fitur laporan
 Route::get('/laporan', [LaporanController::class, 'index']);
@@ -65,4 +68,5 @@ Route::get('/laporan', [LaporanController::class, 'index']);
 Route::get('/upload', [ImageController::class, 'create']);
 Route::post('/upload', [ImageController::class, 'store'])->name('image.upload');
 Route::delete('/upload/{id}', [ImageController::class, 'destroy'])->name('image.delete');
+Route::delete('/transaksi/{id}', [TransaksiController::class, 'destroy'])->name('transaksi.destroy');
 Route::get('/gallery', [ImageController::class, 'gallery'])->name('image.gallery');

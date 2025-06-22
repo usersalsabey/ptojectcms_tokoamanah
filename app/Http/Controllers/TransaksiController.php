@@ -76,10 +76,28 @@ class TransaksiController extends Controller
     }
 
     public function destroy($id)
-    {
-        DB::table('transaksi_detail')->where('transaksi_id', $id)->delete();
-        DB::table('transaksi')->where('id', $id)->delete();
+{
+    DB::table('transaksi_detail')->where('transaksi_id', $id)->delete();
+    DB::table('transaksi')->where('id', $id)->delete();
 
-        return redirect('/transaksi')->with('success', 'Transaksi berhasil dihapus!');
+    return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil dihapus!');
+}
+
+
+    public function delete($id)
+        {
+            $transaksi = DB::table('transaksi')
+             ->join('pembeli', 'transaksi.pembeli_id', '=', 'pembeli.id')
+             ->join('kasir', 'transaksi.kasir_id', '=', 'kasir.id')
+             ->select('transaksi.*', 'pembeli.nama as nama_pembeli', 'kasir.nama as nama_kasir')
+             ->where('transaksi.id', $id)
+             ->first();
+
+    if (!$transaksi) {
+        return redirect('/transaksi')->with('error', 'Transaksi tidak ditemukan!');
     }
+
+    return view('transaksi.delete', compact('transaksi'));
+}
+
 }

@@ -11,6 +11,11 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
+    {{-- Notifikasi error --}}
+    @if (session('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
+    @endif
+
     {{-- Tombol tambah transaksi --}}
     <a href="{{ url('/transaksi/create') }}" class="btn btn-primary mb-3">Transaksi Baru</a>
 
@@ -36,8 +41,8 @@
                     {{-- Tombol detail --}}
                     <a href="{{ url('/transaksi/' . $trx->id) }}" class="btn btn-sm btn-info">Detail</a>
 
-                    {{-- Tombol hapus --}}
-                    <form action="{{ url('/transaksi/' . $trx->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus transaksi ini?')">
+                    {{-- Tombol konfirmasi delete --}}
+                    <form action="{{ route('transaksi.destroy', $trx->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus transaksi ini?')">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-sm btn-danger">Hapus</button>

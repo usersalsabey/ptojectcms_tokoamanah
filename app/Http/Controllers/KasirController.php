@@ -7,6 +7,19 @@ use Illuminate\Support\Facades\DB;
 
 class KasirController extends Controller
 {
+public function showWithTryCatch($id)
+  {
+        try {
+            $kasir = Kasir::findOrFail($id);
+            return view('kasir.show', compact('kasir'));
+        } catch (ModelNotFoundException $e) {
+            return response()->view('errors.notfound', [], 404);
+        }
+    }
+
+
+
+
     public function index()
     {
         $kasir = DB::select("SELECT * FROM kasir");

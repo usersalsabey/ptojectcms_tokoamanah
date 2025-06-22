@@ -48,6 +48,22 @@ class BarangController extends Controller
         return redirect('/barang')->with('success', 'Barang berhasil ditambahkan!');
     }
 
+    public function show($id) 
+    {
+    $barang = \App\Models\Barang::findOrFail($id); 
+    return view('barang.show', compact('barang'));
+    }
+
+    public function showTryCatch($id)
+    {
+    try {
+        $barang = \App\Models\Barang::findOrFail($id); 
+        return view('barang.show', compact('barang'));
+    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        return response()->view('errors.barang-not-found', [], 404); 
+    }
+    }
+
     public function edit($id)
     {
         $barang = DB::selectOne('SELECT * FROM barang WHERE id = ?', [$id]);
