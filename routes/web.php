@@ -8,6 +8,7 @@ use App\Http\Controllers\PembeliController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\AuthController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -70,3 +71,27 @@ Route::post('/upload', [ImageController::class, 'store'])->name('image.upload');
 Route::delete('/upload/{id}', [ImageController::class, 'destroy'])->name('image.delete');
 Route::delete('/transaksi/{id}', [TransaksiController::class, 'destroy'])->name('transaksi.destroy');
 Route::get('/gallery', [ImageController::class, 'gallery'])->name('image.gallery');
+
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+Route::post('/register', [AuthController::class, 'register']);
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Contoh halaman dashboard yang hanya bisa diakses setelah login
+Route::get('/', function () {
+    if (Auth::check()) {
+        // Jika sudah login, tampilkan welcome
+        return view('welcome');
+    } else {
+        // Jika belum login, redirect ke halaman login
+        return redirect('/login');
+    }
+});
+
+Route::get('/home', function () {
+    return view('home');
+})->middleware('auth');
+
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+

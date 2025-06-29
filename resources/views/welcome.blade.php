@@ -73,15 +73,8 @@
     <div class="welcome-container">
         <h1 id="welcome-title">🎀 Selamat Datang, Maniezz!</h1>
         <p id="welcome-desc">Di Toko Amanah yang imut dan terpercaya~</p>
-        <button onclick="showMenu()" id="btnMasuk" class="btn btn-start">Masuk ke Toko 💅</button>
+        <a href="{{ url('/login') }}" class="btn btn-start">Masuk ke Toko 💅</a>
 
-        <div id="menu" class="section-buttons mt-4">
-            <a href="{{ url('/barang') }}">🧺 Barang</a>
-            <a href="{{ url('/kasir') }}">👩‍🍳 Kasir</a>
-            <a href="{{ url('/pembeli') }}">🧍‍♀️ Pembeli</a>
-            <a href="{{ url('/transaksi') }}">🛒 Transaksi</a>
-            <a href="{{ url('/laporan') }}">📊 Laporan</a>
-        </div>
     </div>
 
     <script>

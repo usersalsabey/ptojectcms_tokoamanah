@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title') - Toko Amanah</title>
+    <title>@yield('title', 'Toko Amanah') - Toko Amanah</title>
 
     {{-- Bootstrap 5 --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
 
     {{-- Google Font: Coquette vibes --}}
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display&display=swap" rel="stylesheet">
@@ -79,7 +76,7 @@
                         <a class="nav-link {{ request()->is('barang*') ? 'active' : '' }}" href="{{ url('/barang') }}">🧺 Barang</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->is('kasir*') ? 'active' : '' }}" href="{{ url('/kasir') }}">👩‍🍳 Kasir</a>
+                        <a class="nav-link {{ request()->is('pegawai*') ? 'active' : '' }}" href="{{ url('/pegawai') }}">👩‍🍳 Kasir</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('transaksi*') ? 'active' : '' }}" href="{{ url('/transaksi') }}">🛒 Transaksi</a>
@@ -91,6 +88,14 @@
                         <a class="nav-link {{ request()->is('laporan*') ? 'active' : '' }}" href="{{ url('/laporan') }}">📊 Laporan</a>
                     </li>
                 </ul>
+
+                {{-- Logout button hanya muncul saat user login --}}
+                @auth
+                <form action="{{ route('logout') }}" method="POST" class="d-flex ms-lg-3 mt-2 mt-lg-0">
+                    @csrf
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Logout 🚪</button>
+                </form>
+                @endauth
             </div>
         </div>
     </nav>
