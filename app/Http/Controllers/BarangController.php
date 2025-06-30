@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Barang;
+use Illuminate\Database\Eloquent\ModelNotFoundException; // ✅ Tambahkan ini agar bisa catch exception
 
 class BarangController extends Controller
 {
@@ -53,28 +54,33 @@ class BarangController extends Controller
     }
 
     public function show($id)
-    {
+{
+    try {
         $barang = Barang::findOrFail($id);
         return view('barang.show', compact('barang'));
+    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        return redirect('/barang')->with('error', 'Barang tidak ditemukan.');
     }
+}
 
     public function showTryCatch($id)
     {
         try {
             $barang = Barang::findOrFail($id);
             return view('barang.show', compact('barang'));
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        } catch (ModelNotFoundException $e) {
             return response()->view('errors.barang-not-found', [], 404);
         }
     }
 
     public function edit($id)
     {
-        $barang = DB::selectOne('SELECT * FROM barang WHERE id = ?', [$id]);
-        if (!$barang) {
+        try {
+            $barang = Barang::findOrFail($id); // Pakai Eloquent
+            return view('barang.edit', ['barang' => $barang]);
+        } catch (ModelNotFoundException $e) {
             return redirect('/barang')->with('error', 'Data tidak ditemukan.');
         }
-        return view('barang.edit', ['barang' => $barang]);
     }
 
     public function update(Request $request, $id)

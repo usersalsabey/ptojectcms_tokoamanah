@@ -1,17 +1,17 @@
-{{-- resources/views/barang/edit.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Edit Barang')
 
 @section('content')
 <div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Edit Barang</h2>
-    </div>
+    <h2 class="mb-4 text-center">✏️ Edit Barang</h2>
+
+    @if (session('error'))
+        <div class="alert alert-danger text-center">{{ session('error') }}</div>
+    @endif
 
     @if ($errors->any())
         <div class="alert alert-danger">
-            <strong>Ups!</strong> Ada kesalahan input.<br><br>
             <ul class="mb-0">
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -22,38 +22,35 @@
 
     <form action="{{ url('/barang/' . $barang->id) }}" method="POST">
         @csrf
+        @method('PUT') {{-- 🔥 Penting agar route PUT dikenali --}}
 
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <label class="form-label">Nama Barang</label>
-                <input type="text" class="form-control" name="nama" value="{{ old('nama', $barang->nama) }}" required>
-            </div>
-            <div class="col-md-6">
-                <label class="form-label">Harga</label>
-                <input type="number" class="form-control" name="harga" value="{{ old('harga', $barang->harga) }}" required>
-            </div>
+        <div class="mb-3">
+            <label>Nama Barang</label>
+            <input type="text" name="nama" class="form-control" value="{{ $barang->nama }}" required>
         </div>
 
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <label class="form-label">Stok</label>
-                <input type="number" class="form-control" name="stok" value="{{ old('stok', $barang->stok) }}" required>
-            </div>
-            <div class="col-md-6">
-                <label class="form-label">Kategori</label>
-                <input type="text" class="form-control" name="kategori" value="{{ old('kategori', $barang->kategori) }}" required>
-            </div>
+        <div class="mb-3">
+            <label>Harga</label>
+            <input type="number" name="harga" class="form-control" value="{{ $barang->harga }}" required>
         </div>
 
-        <div class="mb-4">
-            <label class="form-label">Masa Berlaku</label>
-            <input type="date" class="form-control" name="masa_berlaku" value="{{ old('masa_berlaku', date('Y-m-d', strtotime($barang->masa_berlaku))) }}" required>
+        <div class="mb-3">
+            <label>Stok</label>
+            <input type="number" name="stok" class="form-control" value="{{ $barang->stok }}" required>
         </div>
 
-        <div class="d-flex justify-content-between">
-            <a href="{{ url('/barang') }}" class="btn btn-secondary">← Batal</a>
-            <button type="submit" class="btn btn-success">💾 Update</button>
+        <div class="mb-3">
+            <label>Kategori</label>
+            <input type="text" name="kategori" class="form-control" value="{{ $barang->kategori }}" required>
         </div>
+
+        <div class="mb-3">
+            <label>Masa Berlaku</label>
+            <input type="date" name="masa_berlaku" class="form-control" value="{{ $barang->masa_berlaku }}" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+        <a href="{{ url('/barang') }}" class="btn btn-secondary">Kembali</a>
     </form>
 </div>
 @endsection
