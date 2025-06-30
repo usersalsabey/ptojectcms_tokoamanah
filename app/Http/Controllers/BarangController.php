@@ -34,6 +34,12 @@ class BarangController extends Controller
 
     public function store(Request $request)
     {
+
+         Log::info('User Registered', [
+           
+            'time' => now()->toDateTimeString(),
+        ]);
+
         $request->validate([
             'nama' => 'required',
             'harga' => 'required|numeric',
