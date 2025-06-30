@@ -27,19 +27,25 @@
                 <th>Pembeli</th>
                 <th>Kasir</th>
                 <th>Total</th>
+                <th>Metode Pembayaran</th>
                 <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($data as $trx)
             <tr>
-                <td>{{ $trx->tanggal }}</td>
-                <td>{{ $trx->nama_pembeli }}</td>
-                <td>{{ $trx->nama_kasir }}</td>
-                <td>Rp {{ number_format($trx->total) }}</td>
+                <td>{{ $trx->tanggal }}</td> <!-- alias: AS tanggal -->
+                <td>{{ $trx->nama_pembeli }}</td> <!-- alias: AS nama_pembeli -->
+                <td>{{ $trx->nama_kasir }}</td> <!-- alias: AS nama_kasir -->
+                <td>{{ $trx->total }}</td> <!-- alias: AS total -->
+                 <td>{{ $trx->metode_pembayaran }}</td>
+
                 <td class="d-flex gap-1">
                     {{-- Tombol detail --}}
                     <a href="{{ url('/transaksi/' . $trx->id) }}" class="btn btn-sm btn-info">Detail</a>
+
+                    {{-- Tombol edit --}}
+                    <a href="{{ route('transaksi.edit', $trx->id) }}" class="btn btn-sm btn-warning">Edit</a>
 
                     {{-- Tombol konfirmasi delete --}}
                     <form action="{{ route('transaksi.destroy', $trx->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus transaksi ini?')">

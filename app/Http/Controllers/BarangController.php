@@ -9,36 +9,40 @@ use App\Models\Barang;
 class BarangController extends Controller
 {
     public function index(Request $request)
-{
-    $query = Barang::orderBy('id', 'desc');
+    {
+        $query = Barang::orderBy('id', 'desc');
 
-    if ($request->has('search')) {
-        $search = $request->search;
-        $query->where(function ($q) use ($search) {
-            $q->where('nama_barang', 'like', '%' . $search . '%')
-              ->orWhere('kode_barang', 'like', '%' . $search . '%');
-        });
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('nama', 'like', '%' . $search . '%');
+            });
+        }
+
+        $data = $query->get();
+        $jumlah = Barang::count();
+
+        return view('barang.index', compact('data', 'jumlah'));
     }
 
-    $data = $query->get();
-
-    $jumlah = Barang::count();
-
-    return view('barang.index', compact('data', 'jumlah'));
-}
+    // ✅ Tambahan method create
+    public function create()
+    {
+        return view('barang.create');
+    }
 
     public function store(Request $request)
     {
         $request->validate([
-            'nama_barang' => 'required',
+            'nama' => 'required',
             'harga' => 'required|numeric',
             'stok' => 'required|integer',
             'kategori' => 'required',
             'masa_berlaku' => 'required|date',
         ]);
 
-        DB::insert('INSERT INTO barang (nama_barang, harga, stok, kategori, masa_berlaku) VALUES (?, ?, ?, ?, ?)', [
-            $request->nama_barang,
+        DB::insert('INSERT INTO barang (nama, harga, stok, kategori, masa_berlaku) VALUES (?, ?, ?, ?, ?)', [
+            $request->nama,
             $request->harga,
             $request->stok,
             $request->kategori,
@@ -48,20 +52,20 @@ class BarangController extends Controller
         return redirect('/barang')->with('success', 'Barang berhasil ditambahkan!');
     }
 
-    public function show($id) 
+    public function show($id)
     {
-    $barang = \App\Models\Barang::findOrFail($id); 
-    return view('barang.show', compact('barang'));
+        $barang = Barang::findOrFail($id);
+        return view('barang.show', compact('barang'));
     }
 
     public function showTryCatch($id)
     {
-    try {
-        $barang = \App\Models\Barang::findOrFail($id); 
-        return view('barang.show', compact('barang'));
-    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-        return response()->view('errors.barang-not-found', [], 404); 
-    }
+        try {
+            $barang = Barang::findOrFail($id);
+            return view('barang.show', compact('barang'));
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->view('errors.barang-not-found', [], 404);
+        }
     }
 
     public function edit($id)
@@ -73,19 +77,18 @@ class BarangController extends Controller
         return view('barang.edit', ['barang' => $barang]);
     }
 
-   
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nama_barang' => 'required',
+            'nama' => 'required',
             'harga' => 'required|numeric',
             'stok' => 'required|integer',
             'kategori' => 'required',
             'masa_berlaku' => 'required|date',
         ]);
 
-        DB::update('UPDATE barang SET nama_barang = ?, harga = ?, stok = ?, kategori = ?, masa_berlaku = ? WHERE id = ?', [
-            $request->nama_barang,
+        DB::update('UPDATE barang SET nama = ?, harga = ?, stok = ?, kategori = ?, masa_berlaku = ? WHERE id = ?', [
+            $request->nama,
             $request->harga,
             $request->stok,
             $request->kategori,
@@ -95,6 +98,7 @@ class BarangController extends Controller
 
         return redirect('/barang')->with('success', 'Barang berhasil diperbarui!');
     }
+
     public function destroy($id)
     {
         DB::delete('DELETE FROM barang WHERE id = ?', [$id]);

@@ -6,13 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Barang extends Model
 {
-    protected $table = 'barang';
+    protected $table = 'BARANG'; // pakai huruf besar semua sesuai Oracle
     public $timestamps = false;
 
-    public function transaksi()
-{
-    return $this->belongsToMany(Transaksi::class, 'transaksi_detail', 'barang_id', 'transaksi_id')
-                ->withPivot('jumlah', 'harga_satuan');
-}
+    protected $fillable = [
+        'ID',
+        'NAMA_BARANG', // ini disesuaikan
+        'STOK',
+        'HARGA',
+    ];
 
+    public function transaksi()
+    {
+        return $this->belongsToMany(Transaksi::class, 'TRANSAKSI_DETAIL', 'BARANG_ID', 'TRANSAKSI_ID')
+                    ->withPivot('JUMLAH', 'HARGA_SATUAN');
+    }
 }

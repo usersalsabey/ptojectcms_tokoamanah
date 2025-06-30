@@ -76,7 +76,7 @@
                         <a class="nav-link {{ request()->is('barang*') ? 'active' : '' }}" href="{{ url('/barang') }}">🧺 Barang</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->is('pegawai*') ? 'active' : '' }}" href="{{ url('/pegawai') }}">👩‍🍳 Kasir</a>
+                        <a class="nav-link {{ request()->is('pegawai*') ? 'active' : '' }}" href="{{ url('/kasir') }}">👩‍🍳 Kasir</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('transaksi*') ? 'active' : '' }}" href="{{ url('/transaksi') }}">🛒 Transaksi</a>

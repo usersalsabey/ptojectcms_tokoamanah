@@ -49,7 +49,7 @@
     <h1 class="home-title">🛍️ Butuh apa??</h1>
     <div class="button-grid mt-3">
         <a href="{{ url('/barang') }}">🧺 Barang</a>
-        <a href="{{ url('/pegawai') }}">👩‍🍳 Kasir</a>
+        <a href="{{ url('/kasir') }}">👩‍🍳 Kasir</a>
         <a href="{{ url('/pembeli') }}">🧍‍♀️ Pembeli</a>
         <a href="{{ url('/transaksi') }}">🛒 Transaksi</a>
         <a href="{{ url('/laporan') }}">📊 Laporan</a>

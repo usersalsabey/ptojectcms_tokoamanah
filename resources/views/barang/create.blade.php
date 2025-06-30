@@ -1,13 +1,10 @@
-{{-- resources/views/barang/create.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Tambah Barang')
 
 @section('content')
 <div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Tambah Barang</h2>
-    </div>
+    <h2 class="mb-4">Tambah Barang</h2>
 
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -22,41 +19,36 @@
 
     <form action="{{ url('/barang') }}" method="POST">
         @csrf
-
         <div class="row mb-3">
             <div class="col-md-6">
                 <label class="form-label">Nama Barang</label>
-                <input type="text" class="form-control" name="nama_barang" value="{{ old('nama_barang') }}" required>
+                <input type="text" name="nama" class="form-control" value="{{ old('nama') }}" required>
             </div>
             <div class="col-md-6">
                 <label class="form-label">Harga</label>
-                <input type="number" class="form-control" name="harga" value="{{ old('harga') }}" required>
+                <input type="number" name="harga" class="form-control" value="{{ old('harga') }}" required>
             </div>
         </div>
 
         <div class="row mb-3">
             <div class="col-md-6">
                 <label class="form-label">Stok</label>
-                <input type="number" class="form-control" name="stok" value="{{ old('stok') }}" required>
+                <input type="number" name="stok" class="form-control" value="{{ old('stok') }}" required>
             </div>
             <div class="col-md-6">
                 <label class="form-label">Kategori</label>
-                <input type="text" class="form-control" name="kategori" value="{{ old('kategori') }}" required>
+                <input type="text" name="kategori" class="form-control" value="{{ old('kategori') }}" required>
             </div>
         </div>
 
         <div class="mb-4">
             <label class="form-label">Masa Berlaku</label>
-            <input type="date" class="form-control" name="masa_berlaku" value="{{ old('masa_berlaku') }}" required>
+            <input type="date" name="masa_berlaku" class="form-control" value="{{ old('masa_berlaku') }}" required>
         </div>
 
         <div class="d-flex justify-content-between">
-            <a href="{{ url('/barang') }}" class="btn btn-secondary">
-                ← Batal
-            </a>
-            <button type="submit" class="btn btn-primary">
-                💾 Simpan
-            </button>
+            <a href="{{ url('/barang') }}" class="btn btn-secondary">← Batal</a>
+            <button type="submit" class="btn btn-success">+ Simpan</button>
         </div>
     </form>
 </div>

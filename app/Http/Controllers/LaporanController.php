@@ -8,14 +8,14 @@ class LaporanController extends Controller
 {
     public function index()
     {
-        $laporan = DB::table('transaksi')
+        $laporan = DB::table('metode_pembayaran') // ganti nama tabel
             ->select(
-                DB::raw("TRUNC(tanggal) as tanggal"),
+                DB::raw("TRUNC(tanggal_transaksi) as tanggal"), // ganti nama kolom
                 DB::raw("COUNT(*) as jumlah_transaksi"),
-                DB::raw("SUM(total) as total_penjualan")
+                DB::raw("SUM(total_harga) as total_penjualan") // ganti nama kolom
             )
-            ->groupBy(DB::raw("TRUNC(tanggal)"))
-            ->orderBy(DB::raw("TRUNC(tanggal)"), 'desc')
+            ->groupBy(DB::raw("TRUNC(tanggal_transaksi)"))
+            ->orderBy(DB::raw("TRUNC(tanggal_transaksi)"), 'desc')
             ->get();
 
         return view('laporan.index', compact('laporan'));

@@ -44,11 +44,12 @@
             @forelse ($data as $barang)
             <tr>
                 <td class="text-center">{{ $barang->id }}</td>
-                <td>{{ $barang->nama_barang }}</td>
+                <td>{{ $barang->nama }}</td>
                 <td>Rp {{ number_format($barang->harga) }}</td>
                 <td>{{ $barang->stok }}</td>
                 <td class="d-flex gap-1 justify-content-center">
-                    <a href="{{ url('/barang/' . $barang->id . '/edit') }}" class="btn btn-sm btn-warning">Edit</a>
+                    {{-- Perbaikan: Ganti route transaksi.edit dengan barang.edit dan $transaksi->id menjadi $barang->id --}}
+                    <a href="{{ route('barang.edit', $barang->id) }}" class="btn btn-warning btn-sm">Edit</a>
                     <form action="{{ url('/barang/' . $barang->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus barang ini?')">
                         @csrf
                         @method('DELETE')

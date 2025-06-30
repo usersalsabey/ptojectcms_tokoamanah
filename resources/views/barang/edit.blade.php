@@ -26,7 +26,7 @@
         <div class="row mb-3">
             <div class="col-md-6">
                 <label class="form-label">Nama Barang</label>
-                <input type="text" class="form-control" name="nama_barang" value="{{ old('nama_barang', $barang->nama_barang) }}" required>
+                <input type="text" class="form-control" name="nama" value="{{ old('nama', $barang->nama) }}" required>
             </div>
             <div class="col-md-6">
                 <label class="form-label">Harga</label>
